@@ -13,7 +13,9 @@ current_time=$(date "+%Y.%m.%d.%H.%M.%S")
 
 aws s3 cp s3://$S3_BUCKET_NAME/tmp/$DOMAINS_FILE /tmp/scanme
 
-cat /tmp/scanme | aquatone -out /tmp/output -ports xlarge -resolution "640,480" -scan-timeout 500
+aws s3 cp s3://$S3_BUCKET_NAME/exclude-url-patterns.txt /tmp/exclude-url-patterns.txt
+
+grep -v --file /tmp/exclude-url-patterns.txt /tmp/scanme | aquatone -out /tmp/output -ports xlarge -resolution "640,480" -save-body -scan-timeout 500
 
 mkdir -p /tmp/$TLD
 
