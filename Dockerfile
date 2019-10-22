@@ -4,17 +4,7 @@ FROM ubuntu:latest
 # setting maintainer
 LABEL maintainer="@securitychops"
 
-# get startup script ready
 COPY .start.sh .
-
-# make startup script executable
-#RUN chmod +x /home/bender/.start.sh
-
-# setting maintainer
-LABEL maintainer="@securitychops"
-
-COPY .start.sh .
-
 RUN chmod +x .start.sh
 RUN apt-get update
 RUN apt-get install -y git
