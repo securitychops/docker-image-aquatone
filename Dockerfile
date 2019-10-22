@@ -1,33 +1,31 @@
-FROM golang:alpine
+# grabbing latest ubuntu image
+FROM ubuntu:latest
 
 # setting maintainer
 LABEL maintainer="@securitychops"
 
-# using non root user
-RUN addgroup -S bender && \
-    adduser -S bender -G bender
-
 # get startup script ready
-COPY .start.sh /home/bender
+COPY .start.sh .
 
-    # make startup script executable
-RUN chmod +x /home/bender/.start.sh && \
-    # install the basics
-    apk add --update \
-    git \
-    chromium \
-    python \
-    py-pip && \
-    # get aws
-    pip install awscli && \
-    # get aquatone
-    go get github.com/michenriksen/aquatone && \
-    # dont need git anymore, kill it
-    apk del git
+# make startup script executable
+#RUN chmod +x /home/bender/.start.sh
 
-# we are now bender
-USER bender
-WORKDIR /home/bender
+# setting maintainer
+LABEL maintainer="@securitychops"
+
+COPY .start.sh .
+
+RUN chmod +x .start.sh
+RUN apt-get update
+RUN apt-get install -y git
+RUN apt-get install -y golang-go
+RUN apt-get install -y python
+RUN apt-get install -y python-pip
+RUN apt-get install -y chromium-browser
+
+RUN pip install awscli
+
+RUN go get github.com/michenriksen/aquatone
 
 # autostart our script
-CMD ["sh", ".start.sh"]
+CMD ["bash", ".start.sh"]
