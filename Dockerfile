@@ -4,8 +4,6 @@ FROM ubuntu:latest
 # setting maintainer
 LABEL maintainer="@securitychops"
 
-COPY .start.sh .
-RUN chmod +x .start.sh
 RUN apt-get update
 RUN apt-get install -y git
 RUN apt-get install -y golang-go
@@ -16,6 +14,12 @@ RUN apt-get install -y chromium-browser
 RUN pip install awscli
 
 RUN go get github.com/michenriksen/aquatone
+
+COPY .start.sh /root/go/bin
+
+WORKDIR /root/go/bin
+
+RUN chmod +x .start.sh
 
 # autostart our script
 CMD ["bash", ".start.sh"]
