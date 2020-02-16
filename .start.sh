@@ -24,5 +24,5 @@ aws s3 mv /tmp/$TLD/ s3://$S3_BUCKET_NAME/reports/$TLD/$current_time/ --recursiv
 echo "$TLD/$current_time" > /tmp/$UUID
 aws s3 mv /tmp/$UUID s3://$S3_BUCKET_NAME/tmp/$UUID
 
-echo '{"task_type":"slack","body":"aquatone_complete"}' > /tmp/$UUID
+echo '{"task_type":"slack","body":"scan_complete"}' > /tmp/$UUID
 aws sqs send-message --queue-url $SQS_URL --message-body $(cat /tmp/$UUID)
